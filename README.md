@@ -18,7 +18,7 @@
 ├── /lib                        ## Database Connection and Utility Functions
 │   └── mongoose.ts             # MongoDB connection logic
 ├── /models                     ## Mongoose Models
-│   └── Painting.ts             # Mongoose model for the paintings data
+│   └── painting.ts             # Mongoose model for the paintings data
 ├── /public
 │   └── /images                 # Static images (if used in the frontend)
 ├── /styles
