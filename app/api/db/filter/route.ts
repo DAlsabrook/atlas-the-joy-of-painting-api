@@ -8,12 +8,12 @@ export const GET = async (req: NextRequest) => {
   const name = searchParams.get('name');
 
   // Perform your database search using the query parameter
-  const results = await functionFromlibFolder(color, date, name);
+  // const results = await functionFromlibFolder(color, date, name);
 
-  return new Response(JSON.stringify({ results }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  });
+  // return new Response(JSON.stringify({ results }), {
+  //   status: 200,
+  //   headers: { 'Content-Type': 'application/json' },
+  // });
 };
 
 
@@ -23,10 +23,10 @@ export const POST = async (req: NextRequest) => {
   const { color, date, name } = data;
 
   // Perform your database search using the query parameter
-  const results = await functionFromlibFolder(color, date, name);
+  // const results = await functionFromlibFolder(color, date, name);
 
-  return new Response(JSON.stringify({ results }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  });
+  // return new Response(JSON.stringify({ results }), {
+  //   status: 200,
+  //   headers: { 'Content-Type': 'application/json' },
+  // });
 };
