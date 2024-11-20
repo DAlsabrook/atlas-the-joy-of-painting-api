@@ -12,17 +12,17 @@
 |   |   ├── /db
 |   |   |   ├── /upload         # POST - takes .csv file, cleans, and uploads to mongo
 |   |   |   └── /filter         # GET - Returns query param filtered paintings from mongo
-│   │   └── /status             # GET - check if API is available
+│   │   └── /status             # GET - check if API is available - curl -X GET http://localhost:3000/api/status
 │   ├── layout.tsx              # Root layout for frontend
 │   └── page.tsx                # Router for SPA
-├── /lib
+├── /lib                        ## Database Connection and Utility Functions
 │   └── mongoose.ts             # MongoDB connection logic
-├── /models
+├── /models                     ## Mongoose Models
 │   └── Painting.ts             # Mongoose model for the paintings data
 ├── /public
 │   └── /images                 # Static images (if used in the frontend)
 ├── /styles
-│   └── globals.css             # Global CSS file (Tailwind or custom styles)
+│   └── globals.css             # Global CSS file (imported to layout.tsx)
 │   └── tailwind.config.js      # Tailwind CSS config
 ├── /node_modules               # Project dependencies (auto-generated)
 ├── /.env.local                 # Environment variables (MongoDB URI, etc.)

@@ -1,25 +1,10 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { type NextRequest } from 'next/server'
 
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { method } = req;
-
-  switch (method) {
-    case 'GET':
-      return GET(req, res);
-    case 'POST':
-      return POST(req, res);
-    default:
-      res.setHeader('Allow', ['GET', 'POST']);
-      res.status(405).end(`Method ${method} Not Allowed`);
-  }
-}
-
-function GET(req: NextApiRequest, res: NextApiResponse) {
-  res.status(200).json({ message: 'GET request working' });
-}
-
-function POST(req: NextApiRequest, res: NextApiResponse) {
+export const POST = async (req: NextRequest, res:Response) => {
   const data = req.body;
-  res.status(200).json({ message: 'POST request working', data });
-}
+  return new Response(JSON.stringify({ message: 'API is ready and working' }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
+};
