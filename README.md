@@ -10,6 +10,7 @@
 ├── /app
 │   ├── /api
 |   |   ├── /db
+|   |   |   ├── /connect        # GET - Used internally to start the database connection
 |   |   |   ├── /upload         # POST - takes .csv file, cleans, and uploads to mongo
 |   |   |   └── /filter         # GET - Returns query param filtered paintings from mongo
 │   │   └── /status             # GET - check if API is available - curl -X GET http://localhost:3000/api/status
