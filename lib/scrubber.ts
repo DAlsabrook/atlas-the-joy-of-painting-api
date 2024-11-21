@@ -1,5 +1,6 @@
-function scrubber() {
-  console.log('in scrubber')
+function scrubber(colors: JSON, episodes: JSON, subject: JSON) {
+  console.log('in scrubber');
+
 }
 
 export { scrubber };
