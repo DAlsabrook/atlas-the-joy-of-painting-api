@@ -26,6 +26,7 @@ export const GET = async (req: NextRequest) => {
 
       if (fileName === 'Episode Dates') {
         data = data.replaceAll(',', '')
+        
                   .replaceAll('"', '')
                   .replaceAll(' (', ', ')
                   .replaceAll(')', ',')
