@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import EpisodeModel from '@/models/painting';
+import PaintingModel from '@/models/painting';
 
 const connectionString = 'mongodb+srv://dfalsabrook:dfAWj1CvKBLc29th@joypainting.fqqbi.mongodb.net/?retryWrites=true&w=majority&appName=joyPainting';
 
@@ -36,4 +37,31 @@ async function uploadToAtlas(paintingObjects: Record<string, any>) {
   return true;
 }
 
-export { connectToAtlas, isConnected, uploadToAtlas };
+
+async function getFromAtlas(data: { color?: string; month?: string; subject?: string }) {
+  const { color, month, subject } = data;
+
+  // Build the query object based on the provided filters
+  const query: any = {};
+  if (color && color.length > 0) {
+    query.colors = { $all: color };
+  }
+  if (month) {
+    query.date = { $regex: new RegExp(`\\s*${month}\\s*`, 'i') };
+  }
+  if (subject && subject.length > 0) {
+    query.subjects = { $all: subject };
+  }
+
+  try {
+    const results = await PaintingModel.find(query).exec();
+    console.log(results)
+    console.log(results.length)
+    return results;
+  } catch (error) {
+    console.error('Error fetching from MongoDB:', error);
+    throw error;
+  }
+}
+
+export { connectToAtlas, isConnected, uploadToAtlas, getFromAtlas };
