@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 const scrubber = require('@/lib/scrubber').scrubber;
 const Papa = require('papaparse');
+const uploadToAtlas = require('@/lib/mongoose').uploadToAtlas;
 
 export interface ParsedData {
   data: any[];
@@ -26,7 +27,6 @@ export const GET = async (req: NextRequest) => {
 
       if (fileName === 'Episode Dates') {
         data = data.replaceAll(',', '')
-        
                   .replaceAll('"', '')
                   .replaceAll(' (', ', ')
                   .replaceAll(')', ',')
@@ -34,7 +34,7 @@ export const GET = async (req: NextRequest) => {
       }
       data = data.toLowerCase();
       // Parse files to JSON
-      const result = Papa.parse(data, {
+      Papa.parse(data, {
         header: true,
         complete: (results: ParsedData) => {
           allData[fileName] = results;
@@ -45,8 +45,17 @@ export const GET = async (req: NextRequest) => {
         },
       });
     }
-    // console.log(allData)
-    scrubber(allData)
+    const paintingObjects = scrubber(allData)
+    const uploaded = await uploadToAtlas(paintingObjects);
+    if (!uploaded) {
+      return new NextResponse(JSON.stringify({
+        message: 'Error uploading files',
+      }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     return new NextResponse(JSON.stringify({
       message: 'Files processed successfully'
     }), {

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import EpisodeModel from '@/models/painting';
 
 const connectionString = 'mongodb+srv://dfalsabrook:dfAWj1CvKBLc29th@joypainting.fqqbi.mongodb.net/?retryWrites=true&w=majority&appName=joyPainting';
 
@@ -19,4 +20,20 @@ function isConnected() {
   return mongoose.connection.readyState === 1;
 }
 
-export { connectToAtlas, isConnected };
+// Function to upload paintings to mongo atlas
+async function uploadToAtlas(paintingObjects: Record<string, any>) {
+  if (!isConnected()) {
+    await connectToAtlas();
+    if(!isConnected()) return false
+  };
+  try {
+    const episodes = Object.values(paintingObjects);
+    await EpisodeModel.insertMany(episodes);
+  } catch (error) {
+    console.error('Error uploading to MongoDB:', error);
+    return false;
+  }
+  return true;
+}
+
+export { connectToAtlas, isConnected, uploadToAtlas };

@@ -3,24 +3,12 @@ import { ParsedData } from "@/app/api/db/upload/route";
 function scrubber(allData: Record<string, ParsedData>) {
   const fileNames = ["Colors Used.csv", "Episode Dates", "Subject Matter.csv"];
   const combinedData: Record<string, any> = {}; // fill in based on title
-  // combinedData = {
-  //   'title': {
-  //     'season_episode: '',
-  //     'subjects': set('subject', 'subject'),
-  //     'colors': [],
-  //     'date': 'string'
-  //   }
-  // }
-  let i = 0;
+
   for (const fileName of fileNames) {
     const episodeDataList: any[] = allData[fileName].data;
-    if (i === 0) {
-      // 0 = color, 1 = dates, 2 = subject
-      // console.log(allData[fileName].data)
-      i++;
-    }
+
     if (episodeDataList.length > 0) {
-      episodeDataList.forEach((episode) => {
+      episodeDataList.forEach((episode, index) => {
         const titleKey = Object.keys(episode).find(key => key.includes('title'));
 
         if (titleKey && titleKey !== 'title') {
@@ -38,14 +26,19 @@ function scrubber(allData: Record<string, ParsedData>) {
               'phthalo_green', 'prussian_blue', 'sap_green', 'titanium_white',
               'van_dyke_brown', 'yellow_ochre', 'alizarin_crimson'];
             let paintingsColors: string[] = [];
-            const cleanTitle = episode.title.replaceAll("'", '')
+            // const cleanTitle = episode.title.replaceAll("'", '');
+
             // Create the episode object for final map
-            combinedData[cleanTitle] = {
+            combinedData[index] = {
+              titles: [], // give ALL titles so i can check if my index theory is right
               season_episode: '',
+              image: '',
               video: '',
               subjects: [],
               colors: [],
-              date: ''
+              hexList: [],
+              date: '',
+              guest: ''
             };
 
             Object.keys(episode).forEach((color) => {
@@ -54,27 +47,59 @@ function scrubber(allData: Record<string, ParsedData>) {
               }
             });
             // Set all colors
-            combinedData[cleanTitle]['colors'] = paintingsColors;
+            combinedData[index]['colors'] = paintingsColors;
             // Set youtube video url
-            combinedData[cleanTitle]['video'] = episode['youtube_src'];
+            combinedData[index]['video'] = episode['youtube_src'];
+            // Set image
+            combinedData[index]['image'] = episode['img_src'];
+            // Set hex codes
+            // const hexValues = episode['color_hex'].match(/#([0-9A-Fa-f]{6})/g);
+            combinedData[index]['hexList'] = episode['color_hex'].match(/#([0-9A-Fa-f]{6})/g);
             break;
 
           case fileNames[1]:
             // dates
-            const tmp = episode.title.replaceAll("'", '');
-            if (combinedData[tmp]) {
-              break;
-            } else {
-              console.log(episode.title)
+            if (episode.date !== undefined && episode.date) {
+              combinedData[index]['date'] = episode.date;
+            }
+            if (episode.guest !== undefined && episode.guest ) {
+              combinedData[index]['guest'] = episode.guest;
             }
             break;
 
           case fileNames[2]:
             // subjects
+            const acceptedSubjects = ['apple_frame','aurora_borealis','barn','beach',
+              'boat','bridge','building','bushes','cabin','cactus','circle_frame',
+              'cirrus','cliff','clouds','conifer','cumulus','deciduous','diane_andre',
+              'dock','double_oval_frame','farm','fence','fire','florida_frame','flowers',
+              'fog','framed','grass','guest','half_circle_frame','half_oval_frame','hills',
+              'lake','lakes','lighthouse','mill','moon','mountain','mountains','night',
+              'ocean','oval_frame','palm_trees','path','person','portrait',
+              'rectangle_3d_frame','rectangular_frame','river','rocks','seashell_frame',
+              'snow','snowy_mountain','split_frame','steve_ross','structure','sun','tomb_frame',
+              'tree','trees','triple_frame','waterfall','waves','windmill','window_frame',
+              'winter','wood_framed'];
+            let subjectsList: String[] = [];
+            Object.keys(episode).forEach((subject) => {
+              if (acceptedSubjects.includes(subject) && episode[subject] === '1') {
+                subjectsList.push(subject)
+              }
+            });
+            combinedData[index]['subjects'] = subjectsList;
+            combinedData[index]['season_episode'] = episode.episode
+            // combinedData[index]['subjects']
+        }
+
+        // Add all titles to the list of titles
+        if (combinedData[index] !== undefined && combinedData[index].titles){
+          combinedData[index].titles.push(episode.title)
         }
       })
     }
   }
+  return combinedData;
+
   // Print all nested data
   // console.log(JSON.stringify(combinedData, null, 2));
 }

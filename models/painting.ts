@@ -1,19 +1,29 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-interface IPainting extends Document {
-  title: string;
+interface Painting extends Document {
+  titles: string[];
+  season_episode: string;
+  image: string;
+  video: string;
+  subjects: string[];
+  colors: string[];
+  hexList: string[];
   date: string;
-  color: string;
-  subject: string;
+  guest: string;
 }
 
 const PaintingSchema: Schema = new Schema({
-  title: { type: String, required: true },
+  titles: { type: [String], required: true },
+  season_episode: { type: String, required: true },
+  image: { type: String, required: true },
+  video: { type: String, required: true },
+  subjects: { type: [String], required: true },
+  colors: { type: [String], required: true },
+  hexList: { type: [String], required: true },
   date: { type: String, required: true },
-  color: { type: [String], required: true },
-  subject: { type: String, required: true },
+  guest: { type: String, required: false },
 });
 
-const Painting = mongoose.model<IPainting>('Painting', PaintingSchema);
+const PaintingModel = mongoose.models.Painting || mongoose.model<Painting>('Painting', PaintingSchema);
 
-export default Painting;
+export default PaintingModel;
