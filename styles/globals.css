@@ -2,3 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+.paint-glob {
+  border-radius: 100% 30% 60% 30% / 40% 50% 80% 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Hide the scrollbar track and style the scrollbar thumb */
+::-webkit-scrollbar {
+  width: 8px;
+  /* Set the width of the scrollbar */
+  height: 8px;
+  /* Set the height of the scrollbar for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  /* Hide the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  /* Set the thumb color to grey */
+  border-radius: 10px;
+  /* Round the corners of the thumb */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  /* Set the scrollbar width to thin */
+  scrollbar-color: #888 transparent;
+  /* Set the thumb color to grey and track to transparent */
+}

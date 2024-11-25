@@ -14,8 +14,19 @@ export default function PaintingModal({ painting, onClose }: PaintingModalProps)
     return videoIdMatch ? `https://www.youtube.com/embed/${videoIdMatch[1]}` : url;
   };
 
+  function capitalizeFirstLetter(string: string) {
+    const trimmedString = string.trimStart();
+    return trimmedString.charAt(0).toUpperCase() + trimmedString.slice(1);
+  }
+
+  const formatSeasonEpisode = (seasonEpisode: string) => {
+    const season = parseInt(seasonEpisode.substring(1, 3), 10);
+    const episode = parseInt(seasonEpisode.substring(4, 6), 10);
+    return `episode ${episode} from season ${season}`;
+  };
+
+  const amazonSearchUrl = `https://www.amazon.com/s?k=${"Bob Ross art print " + encodeURIComponent(painting.titles[0])}`;
   const embedUrl = getEmbedUrl(painting.video);
-  console.log(embedUrl)
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -33,7 +44,7 @@ export default function PaintingModal({ painting, onClose }: PaintingModalProps)
       >
         <div className="max-h-[90vh] overflow-y-auto">
           <div className="sticky top-0 z-10 bg-dark-surface p-4 flex justify-between items-center">
-            <h2 className="text-2xl font-bold text-dark-primary">{painting.titles[0]}</h2>
+            <h2 className="text-2xl font-bold text-dark-primary">{capitalizeFirstLetter(painting.titles[0])}</h2>
             <button
               onClick={onClose}
               className="text-dark-text hover:text-dark-primary focus:outline-none"
@@ -44,37 +55,57 @@ export default function PaintingModal({ painting, onClose }: PaintingModalProps)
               </svg>
             </button>
           </div>
-          <div className="p-4">
+          <div className="p-4 text-center">
             <div className="relative aspect-video mb-4">
               <Image
                 src={painting.image}
                 alt={painting.titles[0]}
                 layout="fill"
-                objectFit="cover"
+                objectFit="contain"
                 className="rounded-lg"
               />
             </div>
-            <p className="text-dark-text mb-4">{painting.season_episode}</p>
+            <p className="text-dark-text text-center mb-4">Bob painted this on {capitalizeFirstLetter(painting.date)} during {formatSeasonEpisode(painting.season_episode)}!</p>
+            <div className="mt-4 mb-4 inline-flex items-center bg-white rounded-lg p-2">
+              <a
+                href={amazonSearchUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-black hover:underline inline-flex">
+                <Image
+                  width={20}
+                  height={20}
+                  src='/images/amazon-logo.svg'
+                  alt='amazon logo'
+                  objectFit="contain"
+                  className="rounded-lg mr-2"
+                />
+                Search on Amazon
+              </a>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              <div>
-                <h3 className="text-lg font-semibold mb-2 text-dark-secondary">Colors</h3>
-                <div className="flex flex-wrap gap-2">
-                  {painting.colors.map((color) => (
+            <div>
+              <h3 className="text-2xl underline font-semibold mb-2 text-dark-secondary">Colors</h3>
+              <div className="flex flex-wrap gap-2">
+                {painting.colors.map((color, index) => {
+                  const hexColor = painting.hexList[index + 1]; // Adjust the index by adding 1
+                  return (
                     <span
                       key={color}
-                      className="inline-block px-2 py-1 text-xs font-semibold rounded-full"
+                      className="inline-block px-2 py-1 text-xs font-semibold paint-glob"
                       style={{
-                        backgroundColor: painting.hexList[painting.colors.indexOf(color)],
-                        color: getContrastColor(painting.hexList[painting.colors.indexOf(color)]),
+                        backgroundColor: hexColor,
+                        color: hexColor ? getContrastColor(hexColor) : 'white', // Default to 'black' if hexColor is undefined
                       }}
                     >
                       {color.replace('_', ' ')}
                     </span>
-                  ))}
-                </div>
+                  );
+                })}
               </div>
+            </div>
               <div>
-                <h3 className="text-lg font-semibold mb-2 text-dark-secondary">Subjects</h3>
+                <h3 className="text-2xl underline font-semibold mb-2 text-dark-secondary">Subjects</h3>
                 <div className="flex flex-wrap gap-2">
                   {painting.subjects.map((subject) => (
                     <span
@@ -88,7 +119,7 @@ export default function PaintingModal({ painting, onClose }: PaintingModalProps)
               </div>
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-2 text-dark-secondary">Watch the Episode</h3>
+              <h3 className="text-2xl underline font-semibold mb-2 text-dark-secondary">Watch the Episode</h3>
               <div className="aspect-video">
                 <iframe
                   width="100%"

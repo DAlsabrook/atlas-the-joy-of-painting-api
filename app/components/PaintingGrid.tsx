@@ -18,6 +18,17 @@ export default function PaintingGrid({ paintings, isLoading, onPaintingClick }: 
     )
   }
 
+  function capitalizeFirstLetter(string: string) {
+    const trimmedString = string.trimStart();
+    return trimmedString.charAt(0).toUpperCase() + trimmedString.slice(1);
+  }
+
+  const formatSeasonEpisode = (seasonEpisode: string) => {
+    const season = parseInt(seasonEpisode.substring(1, 3), 10);
+    const episode = parseInt(seasonEpisode.substring(4, 6), 10);
+    return `Season: ${season} Episode: ${episode}`;
+  };
+
   return (
     <>
       <Masonry
@@ -47,21 +58,24 @@ export default function PaintingGrid({ paintings, isLoading, onPaintingClick }: 
               className="w-full h-auto object-cover"
             />
             <div className="p-4">
-              <h3 className="font-semibold text-lg mb-2 text-dark-primary">{painting.titles[0]}</h3>
-              <p className="text-sm text-dark-text mb-2">{painting.season_episode}</p>
+              <h3 className="font-semibold text-lg mb-2 text-dark-primary">{capitalizeFirstLetter(painting.titles[0])}</h3>
+              <p className="text-sm text-dark-text mb-2">{formatSeasonEpisode(painting.season_episode)}</p>
               <div className="flex flex-wrap gap-1">
-                {painting.colors.slice(0, 5).map((color, index) => (
-                  <span
-                    key={color}
-                    className="inline-block px-2 py-1 text-xs font-semibold rounded-full"
-                    style={{
-                      backgroundColor: painting.hexList[index],
-                      color: getContrastColor(painting.hexList[index]),
-                    }}
-                  >
-                    {color.replace('_', ' ')}
-                  </span>
-                ))}
+                {painting.colors.map((color, index) => {
+                  const hexColor = painting.hexList[index + 1]; // Adjust the index by adding 1
+                  return (
+                    <span
+                      key={color}
+                      className="inline-block px-2 py-1 text-xs font-semibold paint-glob"
+                      style={{
+                        backgroundColor: hexColor,
+                        color: hexColor ? getContrastColor(hexColor) : 'white',
+                      }}
+                    >
+                      {color.replace('_', ' ')}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           </motion.div>
