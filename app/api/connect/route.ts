@@ -1,7 +1,3 @@
-// pages/api/connect.ts
-import type { NextApiRequest } from 'next';
-// const isConnected = require('../../../lib/mongoose').isConnected;
-// const connectToAtlas = require('../../../lib/mongoose').connectToAtlas;
 import { isConnected, connectToAtlas } from '@/lib/mongoose';
 
 export async function GET() {

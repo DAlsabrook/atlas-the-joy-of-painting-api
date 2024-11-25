@@ -6,7 +6,7 @@ import FilterSection from './FilterSection'
 import PaintingGrid from './PaintingGrid'
 import PaintingModal from './PaintingModal'
 import { motion, AnimatePresence } from 'framer-motion'
-
+import { useCallback } from 'react';
 interface PaintingFilterProps {
   filterOptions: FilterOptions
 }
@@ -19,30 +19,30 @@ export default function PaintingFilter({ filterOptions }: PaintingFilterProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [selectedPainting, setSelectedPainting] = useState<Painting | null>(null)
 
-  const fetchPaintings = async () => {
-    setIsLoading(true)
-    const queryParams = new URLSearchParams()
-    if (selectedColors.length > 0) queryParams.set('color', selectedColors.join(','))
-    if (selectedMonths.length > 0) queryParams.set('month', selectedMonths.join(','))
-    if (selectedSubjects.length > 0) queryParams.set('subject', selectedSubjects.join(','))
+  const fetchPaintings = useCallback(async () => {
+    setIsLoading(true);
+    const queryParams = new URLSearchParams();
+    if (selectedColors.length > 0) queryParams.set('color', selectedColors.join(','));
+    if (selectedMonths.length > 0) queryParams.set('month', selectedMonths.join(','));
+    if (selectedSubjects.length > 0) queryParams.set('subject', selectedSubjects.join(','));
 
     try {
-      const response = await fetch(`/api/db/filter?${queryParams.toString()}`)
+      const response = await fetch(`/api/db/filter?${queryParams.toString()}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch paintings')
+        throw new Error('Failed to fetch paintings');
       }
-      const data = await response.json()
-      setPaintings(data)
+      const data = await response.json();
+      setPaintings(data);
     } catch (error) {
-      console.error('Error fetching paintings:', error)
+      console.error('Error fetching paintings:', error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  }, [selectedColors, selectedMonths, selectedSubjects]);
 
   useEffect(() => {
-    fetchPaintings()
-  }, [])
+    fetchPaintings();
+  }, [fetchPaintings]);
 
   const handleFilter = () => {
     fetchPaintings()

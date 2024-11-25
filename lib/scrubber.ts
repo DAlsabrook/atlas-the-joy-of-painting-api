@@ -1,11 +1,30 @@
 import { ParsedData } from "@/app/api/db/upload/route";
 
+interface CombinedData {
+  titles: string[];
+  season_episode: string;
+  image: string;
+  video: string;
+  subjects: string[];
+  colors: string[];
+  hexList: string[];
+  date: string;
+  guest: string;
+}
+
+interface Episode {
+  date?: string;
+  guest?: string;
+  episode?: string;
+  [key: string]: string | undefined;
+}
+
 function scrubber(allData: Record<string, ParsedData>) {
   const fileNames = ["Colors Used.csv", "Episode Dates", "Subject Matter.csv"];
-  const combinedData: Record<string, any> = {}; // fill in based on title
+  const combinedData: Record<number, CombinedData> = {}; // fill in based on title
 
   for (const fileName of fileNames) {
-    const episodeDataList: any[] = allData[fileName].data;
+    const episodeDataList: Episode[] = allData[fileName].data as Episode[];
 
     if (episodeDataList.length > 0) {
       episodeDataList.forEach((episode, index) => {
@@ -49,12 +68,12 @@ function scrubber(allData: Record<string, ParsedData>) {
             // Set all colors
             combinedData[index]['colors'] = paintingsColors;
             // Set youtube video url
-            combinedData[index]['video'] = episode['youtube_src'];
+            combinedData[index]['video'] = episode['youtube_src'] || '';
             // Set image
-            combinedData[index]['image'] = episode['img_src'];
+            combinedData[index]['image'] = episode['img_src'] || '';
             // Set hex codes
             // const hexValues = episode['color_hex'].match(/#([0-9A-Fa-f]{6})/g);
-            combinedData[index]['hexList'] = episode['color_hex'].match(/#([0-9A-Fa-f]{6})/g);
+            combinedData[index]['hexList'] = episode['color_hex'] ? episode['color_hex'].match(/#([0-9A-Fa-f]{6})/g) || [] : [];
             break;
 
           case fileNames[1]:
@@ -87,21 +106,12 @@ function scrubber(allData: Record<string, ParsedData>) {
               }
             });
             combinedData[index]['subjects'] = subjectsList;
-            combinedData[index]['season_episode'] = episode.episode
+            combinedData[index]['season_episode'] = episode.episode || '';
             // combinedData[index]['subjects']
         }
-
-        // Add all titles to the list of titles
-        if (combinedData[index] !== undefined && combinedData[index].titles){
-          combinedData[index].titles.push(episode.title)
-        }
-      })
+      });
     }
   }
+
   return combinedData;
-
-  // Print all nested data
-  // console.log(JSON.stringify(combinedData, null, 2));
 }
-
-export { scrubber };

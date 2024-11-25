@@ -1,12 +1,10 @@
-import { type NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
-const Papa = require('papaparse');
 import { scrubber } from '@/lib/scrubber';
 import { uploadToAtlas } from '@/lib/mongoose';
-// import Papa from 'papaparse'
+import Papa from 'papaparse'
 
 export interface ParsedData {
-  data: Record<string, any>[]; // Array of objects representing each row of the CSV
+  data: Record<string, unknown>[]; // Array of objects representing each row of the CSV
   errors: {
     type: string;
     code: string;
@@ -54,7 +52,7 @@ export const GET = async () => {
     const paintingObjects = scrubber(allData)
     const uploaded = await uploadToAtlas(paintingObjects);
     if (!uploaded) {
-      return new NextResponse(JSON.stringify({
+      return new Response(JSON.stringify({
         message: 'Error uploading files',
       }), {
         status: 500,
@@ -62,7 +60,7 @@ export const GET = async () => {
       });
     }
 
-    return new NextResponse(JSON.stringify({
+    return new Response(JSON.stringify({
       message: 'Files processed successfully'
     }), {
       status: 200,
@@ -71,7 +69,7 @@ export const GET = async () => {
 
   } catch (error) {
     console.error('Error processing files:', error);
-    return new NextResponse(JSON.stringify({
+    return new Response(JSON.stringify({
       message: 'Error processing files',
       error: error instanceof Error ? error.message : String(error)
     }), {

@@ -1,8 +1,12 @@
 import mongoose from 'mongoose';
-import EpisodeModel from '@/models/painting';
 import PaintingModel from '@/models/painting';
 
 const connectionString = 'mongodb+srv://dfalsabrook:dfAWj1CvKBLc29th@joypainting.fqqbi.mongodb.net/?retryWrites=true&w=majority&appName=joyPainting';
+interface PaintingQuery {
+  colors?: { $all: string[] };
+  date?: { $regex: RegExp };
+  subjects?: { $all: string[] };
+}
 
 async function connectToAtlas() {
   if (mongoose.connection.readyState >= 1) {
@@ -22,14 +26,14 @@ function isConnected() {
 }
 
 // Function to upload paintings to mongo atlas
-async function uploadToAtlas(paintingObjects: Record<string, any>) {
+async function uploadToAtlas(paintingObjects: Record<string, unknown>) {
   if (!isConnected()) {
     await connectToAtlas();
-    if(!isConnected()) return false
-  };
+    if (!isConnected()) return false;
+  }
   try {
     const episodes = Object.values(paintingObjects);
-    await EpisodeModel.insertMany(episodes);
+    await PaintingModel.insertMany(episodes);
   } catch (error) {
     console.error('Error uploading to MongoDB:', error);
     return false;
@@ -37,12 +41,12 @@ async function uploadToAtlas(paintingObjects: Record<string, any>) {
   return true;
 }
 
-
+// Function to get paintings from mongo atlas
 async function getFromAtlas(data: { color?: string[]; month?: string; subject?: string[] }) {
   const { color, month, subject } = data;
 
-  // Build the query object based on the provided filters
-  const query: any = {};
+  // Define the query object with the PaintingQuery type
+  const query: PaintingQuery = {};
   if (color && color.length > 0) {
     query.colors = { $all: color };
   }
