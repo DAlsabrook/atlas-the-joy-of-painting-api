@@ -7,20 +7,22 @@ interface FilterSectionProps {
   selected: string[]
   onChange: (selected: string[]) => void
   singleSelect?: boolean
+  includeNoneOption?: boolean
 }
+
 
 export default function FilterSection({
   title,
   options,
   selected,
   onChange,
-  singleSelect = false,
+  includeNoneOption = false,
 }: FilterSectionProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleToggle = (option: string) => {
-    if (singleSelect) {
-      onChange([option])
+    if (option === 'None') {
+      onChange([])
     } else {
       const updatedSelection = selected.includes(option)
         ? selected.filter((item) => item !== option)
@@ -48,10 +50,21 @@ export default function FilterSection({
         className="overflow-hidden"
       >
         <div className="h-full overflow-y-auto pr-2 space-y-2">
+          {includeNoneOption && (
+            <label className="flex items-center space-x-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={selected.length === 0}
+                onChange={() => handleToggle('None')}
+                className="form-checkbox h-5 w-5 text-dark-secondary bg-dark-bg border-dark-text"
+              />
+              <span className="text-dark-text">None (All Months)</span>
+            </label>
+          )}
           {options.map((option) => (
             <label key={option} className="flex items-center space-x-2 cursor-pointer">
               <input
-                type={singleSelect ? 'radio' : 'checkbox'}
+                type="checkbox"
                 checked={selected.includes(option)}
                 onChange={() => handleToggle(option)}
                 className="form-checkbox h-5 w-5 text-dark-secondary bg-dark-bg border-dark-text"

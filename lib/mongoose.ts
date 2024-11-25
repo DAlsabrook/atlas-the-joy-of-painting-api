@@ -55,8 +55,6 @@ async function getFromAtlas(data: { color?: string; month?: string; subject?: st
 
   try {
     const results = await PaintingModel.find(query).exec();
-    console.log(results)
-    console.log(results.length)
     return results;
   } catch (error) {
     console.error('Error fetching from MongoDB:', error);

@@ -14,7 +14,7 @@ interface PaintingFilterProps {
 export default function PaintingFilter({ filterOptions }: PaintingFilterProps) {
   const [selectedColors, setSelectedColors] = useState<string[]>([])
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([])
-  const [selectedMonth, setSelectedMonth] = useState<string>('')
+  const [selectedMonths, setSelectedMonths] = useState<string[]>([])
   const [paintings, setPaintings] = useState<Painting[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [selectedPainting, setSelectedPainting] = useState<Painting | null>(null)
@@ -23,7 +23,7 @@ export default function PaintingFilter({ filterOptions }: PaintingFilterProps) {
     setIsLoading(true)
     const queryParams = new URLSearchParams()
     if (selectedColors.length > 0) queryParams.set('color', selectedColors.join(','))
-    if (selectedMonth) queryParams.set('month', selectedMonth)
+    if (selectedMonths.length > 0) queryParams.set('month', selectedMonths.join(','))
     if (selectedSubjects.length > 0) queryParams.set('subject', selectedSubjects.join(','))
 
     try {
@@ -68,11 +68,11 @@ export default function PaintingFilter({ filterOptions }: PaintingFilterProps) {
           onChange={setSelectedSubjects}
         />
         <FilterSection
-          title="Month"
+          title="Months"
           options={filterOptions.months}
-          selected={selectedMonth ? [selectedMonth] : []}
-          onChange={(selected) => setSelectedMonth(selected[0] || '')}
-          singleSelect
+          selected={selectedMonths}
+          onChange={setSelectedMonths}
+          includeNoneOption={true}
         />
       </motion.div>
       <motion.button

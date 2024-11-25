@@ -15,7 +15,7 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
     setShowVideo(true)
     setTimeout(() => {
       onEnter()
-    }, 5000) // 5 seconds for the video to play
+    }, 12 * 1000) // 5 seconds for the video to play
   }
 
   return (
@@ -33,7 +33,7 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
             transition={{ delay: 0.2 }}
           >
             <Image
-              src="/bob-ross-logo.png"
+              src="/images/signature.png"
               alt="Bob Ross Logo"
               width={300}
               height={200}
@@ -58,9 +58,8 @@ export default function LandingPage({ onEnter }: LandingPageProps) {
           className="fixed inset-0 bg-black flex items-center justify-center"
         >
           <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/KFuNQmMzbGA?autoplay=1&start=5&end=10"
+            style={{ width: '100%', height: '56.25%' }}
+            src="https://www.youtube.com/embed/gqdzXNsL_2o?si=VJK5tI5mHd0RJCMk&controls=0&autoplay=1"
             title="Bob Ross Welcome Video"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
