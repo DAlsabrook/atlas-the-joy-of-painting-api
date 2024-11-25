@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-const getFromAtlas = require('@/lib/mongoose').getFromAtlas
+import { getFromAtlas } from '@/lib/mongoose';
 
 // Can use GET and input data with query params
 export const GET = async (req: NextRequest) => {

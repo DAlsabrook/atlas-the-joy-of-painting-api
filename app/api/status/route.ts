@@ -1,7 +1,6 @@
-import { type NextRequest } from 'next/server'
-const isConnected = require('../../../lib/mongoose').isConnected
+import { isConnected } from "@/lib/mongoose";
 
-export const GET = async (req: NextRequest, res:Response) => {
+export const GET = async () => {
   const dbConneted = isConnected;
   return new Response(JSON.stringify({
     message: 'API is ready and working',

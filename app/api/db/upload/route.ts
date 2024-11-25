@@ -1,12 +1,18 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
-const scrubber = require('@/lib/scrubber').scrubber;
 const Papa = require('papaparse');
-const uploadToAtlas = require('@/lib/mongoose').uploadToAtlas;
+import { scrubber } from '@/lib/scrubber';
+import { uploadToAtlas } from '@/lib/mongoose';
+// import Papa from 'papaparse'
 
 export interface ParsedData {
-  data: any[];
-  errors: any[];
+  data: Record<string, any>[]; // Array of objects representing each row of the CSV
+  errors: {
+    type: string;
+    code: string;
+    message: string;
+    row: number;
+  }[]; // Array of error objects
   meta: {
     delimiter: string;
     linebreak: string;
@@ -16,9 +22,9 @@ export interface ParsedData {
   };
 }
 
-export const GET = async (req: NextRequest) => {
+export const GET = async () => {
   const fileNames = ["Colors Used.csv", "Episode Dates", "Subject Matter.csv"];
-  let allData: Record<string, ParsedData> = {};
+  const allData: Record<string, ParsedData> = {};
 
   try {
     for (const fileName of fileNames) {

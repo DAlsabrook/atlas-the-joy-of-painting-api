@@ -25,7 +25,7 @@ function scrubber(allData: Record<string, ParsedData>) {
               'liquid_black', 'liquid_clear', 'midnight_black', 'phthalo_blue',
               'phthalo_green', 'prussian_blue', 'sap_green', 'titanium_white',
               'van_dyke_brown', 'yellow_ochre', 'alizarin_crimson'];
-            let paintingsColors: string[] = [];
+            const paintingsColors: string[] = [];
             // const cleanTitle = episode.title.replaceAll("'", '');
 
             // Create the episode object for final map
@@ -80,7 +80,7 @@ function scrubber(allData: Record<string, ParsedData>) {
               'snow','snowy_mountain','split_frame','steve_ross','structure','sun','tomb_frame',
               'tree','trees','triple_frame','waterfall','waves','windmill','window_frame',
               'winter','wood_framed'];
-            let subjectsList: String[] = [];
+            const subjectsList: string[] = [];
             Object.keys(episode).forEach((subject) => {
               if (acceptedSubjects.includes(subject) && episode[subject] === '1') {
                 subjectsList.push(subject)

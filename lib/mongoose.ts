@@ -38,7 +38,7 @@ async function uploadToAtlas(paintingObjects: Record<string, any>) {
 }
 
 
-async function getFromAtlas(data: { color?: string; month?: string; subject?: string }) {
+async function getFromAtlas(data: { color?: string[]; month?: string; subject?: string[] }) {
   const { color, month, subject } = data;
 
   // Build the query object based on the provided filters
