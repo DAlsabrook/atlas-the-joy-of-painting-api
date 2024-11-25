@@ -115,3 +115,4 @@ function scrubber(allData: Record<string, ParsedData>) {
 
   return combinedData;
 }
+ export { scrubber }
