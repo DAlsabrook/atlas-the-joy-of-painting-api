@@ -1,11 +1,40 @@
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <h1>Bob Ross Paintings</h1>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-      </footer>
-    </div>
-  );
+'use client'
+
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import PaintingFilter from './components/PaintingFilter'
+import LandingPage from './components/LandingPage'
+import { FilterOptions } from '../types/painting'
+
+// These would ideally come from your API or be stored in a constants file
+const filterOptions: FilterOptions = {
+  colors: ['bright_red', 'cadmium_yellow', 'titanium_white', 'phthalo_blue', 'sap_green'],
+  subjects: ['bushes', 'cabin', 'conifer', 'lake', 'mountain', 'trees', 'waterfall'],
+  months: ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
 }
+
+export default function Home() {
+  const [showMainContent, setShowMainContent] = useState(false)
+
+  return (
+    <main className="min-h-screen bg-black">
+      <AnimatePresence>
+        {!showMainContent && (
+          <LandingPage onEnter={() => setShowMainContent(true)} />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {showMainContent && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+          >
+            <PaintingFilter filterOptions={filterOptions} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </main>
+  )
+}
+

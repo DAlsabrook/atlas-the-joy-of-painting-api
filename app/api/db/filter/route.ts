@@ -33,7 +33,6 @@ export const GET = async (req: NextRequest) => {
   }
 };
 
-
 // Can use POST and input data with body
 export const POST = async (req: NextRequest) => {
   const data = await req.json();
