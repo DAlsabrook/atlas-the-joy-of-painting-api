@@ -40,8 +40,16 @@ export const GET = async () => {
       // Parse files to JSON
       Papa.parse(data, {
         header: true,
-        complete: (results: ParsedData) => {
-          allData[fileName] = results;
+        complete: (results: Papa.ParseResult<Record<string, unknown>>) => {
+          allData[fileName] = {
+            ...results,
+            errors: results.errors.map(error => ({
+              type: error.type,
+              code: error.code,
+              message: error.message,
+              row: error.row ?? -1, // Default to -1 if row is undefined
+            })),
+          };
         },
         error: (error: Error) => {
           console.error(`Error parsing ${fileName}:`, error);
