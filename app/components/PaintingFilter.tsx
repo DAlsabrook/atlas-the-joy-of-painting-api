@@ -106,8 +106,8 @@ export default function PaintingFilter({ filterOptions }: PaintingFilterProps) {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-4 sticky top-0 z-10 bg-black pb-4"
-      >
+        className="flex flex-col md:grid md:grid-cols-3 gap-4 md:sticky top-0 z-10 bg-black pb-4"
+        >
         <FilterSection
           title="Colors"
           options={filterOptions.colors}
