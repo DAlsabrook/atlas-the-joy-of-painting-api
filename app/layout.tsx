@@ -1,10 +1,7 @@
 'use client'
 
 import '../styles/globals.css'
-import { Inter } from 'next/font/google'
 import { useEffect } from 'react'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({
   children,
@@ -23,7 +20,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.className} bg-black text-dark-text`}>{children}</body>
+      <body className={`bg-black text-dark-text`}>{children}</body>
     </html>
   )
 }

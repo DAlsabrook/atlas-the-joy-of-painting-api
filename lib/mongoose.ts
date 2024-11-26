@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import PaintingModel from '@/models/painting';
 
-const connectionString = 'mongodb+srv://dfalsabrook:dfAWj1CvKBLc29th@joypainting.fqqbi.mongodb.net/?retryWrites=true&w=majority&appName=joyPainting';
+const connectionString = process.env.MONGODB_URI;
 interface PaintingQuery {
   colors?: { $all: string[] };
   date?: { $regex: RegExp };
