@@ -140,14 +140,14 @@ export default function PaintingFilter({ filterOptions }: PaintingFilterProps) {
             >
               Clear All
             </motion.button>
-            <motion.button
+            {/* <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleFilter}
               className="bg-dark-secondary text-dark-bg font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out"
             >
               Apply Filters
-            </motion.button>
+            </motion.button> */}
           </div>
         </div>
       </motion.div>
