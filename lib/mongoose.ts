@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import PaintingModel from '@/models/painting';
 
-const connectionString = process.env.MONGODB_URI;
+const connectionString = process.env.MONGODB_URI || '';
 interface PaintingQuery {
   colors?: { $all: string[] };
   date?: { $regex: RegExp };
@@ -14,6 +14,9 @@ async function connectToAtlas() {
   }
 
   try {
+    if (!connectionString) {
+      throw new Error('MongoDB connection string is not defined');
+    }
     await mongoose.connect(connectionString);
   } catch (error) {
     console.error('Error connecting to MongoDB Atlas:', error);
