@@ -44,9 +44,9 @@ export default function PaintingFilter({ filterOptions }: PaintingFilterProps) {
     fetchPaintings();
   }, [fetchPaintings]);
 
-  const handleFilter = () => {
-    fetchPaintings()
-  }
+  // const handleFilter = () => {
+  //   fetchPaintings()
+  // }
 
   const handleRemoveFilter = (filterType: string, value: string) => {
     switch (filterType) {
