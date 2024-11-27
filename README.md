@@ -18,6 +18,7 @@ This project is a web application that allows users to explore and filter Bob Ro
 ---
 
 ## File Structure
+```
 app
 ├── app
 │   ├── api
@@ -55,6 +56,7 @@ app
 │   └── globals.css
 ├── types
 │   └── painting.ts
+```
 
 API Documentation
 POST /api/db/filter
@@ -85,18 +87,10 @@ Get request with query params:
 curl -X GET "http://localhost:3000/api/db/filter?color=bright_red,cadmium_yellow,titanium_white&month=january&subject=bushes,conifer"
 Setup Instructions
 
-# Clone the repository:
-
-git clone https://github.com/your-repo-url.git
-cd your-repo-folder
-Install dependencies:
-
-npm install
-Configure your environment variables:
-
 Create a .env file in the root directory.
-Add your MongoDB connection string:
-MONGO_URI=<your-mongo-uri>
+Add MongoDB connection string:
+MONGODB_URI=mongodb+srv://dfalsabrook:dfAWj1CvKBLc29th@joypainting.fqqbi.mongodb.net/?retryWrites=true&w=majority&appName=joyPainting
+
 
 # Run the development server:
 
