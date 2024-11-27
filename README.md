@@ -101,3 +101,9 @@ Add MongoDB connection string:
 
 npm run dev
 Access the app at http://localhost:3000.
+
+# Visit the site live
+Visit ```https://atlas-the-joy-of-painting-api-pearl.vercel.app/``` to see it in action!
+
+# Author
+[David Alsabrook](https://github.com/DAlsabrook)
