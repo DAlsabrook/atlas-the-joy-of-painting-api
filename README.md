@@ -66,30 +66,35 @@ Filters paintings based on the provided criteria (colors, month, and/or subject)
 
 ## Example cURL Requests
 
-curl -X POST http://localhost:3000/api/db/filter -H "Content-Type: application/json" -d '{"color": ["bright_red", "cadmium_yellow", "titanium_white"]}'
+```curl -X POST http://localhost:3000/api/db/filter -H "Content-Type: application/json" -d '{"color": ["bright_red", "cadmium_yellow", "titanium_white"]}'```
+
 Filter by month:
 
-curl -X POST http://localhost:3000/api/db/filter -H "Content-Type: application/json" -d '{"month": "january"}'
+```curl -X POST http://localhost:3000/api/db/filter -H "Content-Type: application/json" -d '{"month": "january"}'```
+
 Filter by subject:
 
-curl -X POST http://localhost:3000/api/db/filter -H "Content-Type: application/json" -d '{"subject": ["bushes", "conifer"]}'
+```curl -X POST http://localhost:3000/api/db/filter -H "Content-Type: application/json" -d '{"subject": ["bushes", "conifer"]}'``
+
 Filter by color, month, and subject:
 
-curl -X POST http://localhost:3000/api/db/filter -H "Content-Type: application/json" -d '{"color": ["bright_red", "cadmium_yellow"], "month": "january", "subject": ["bushes"]}'
+```curl -X POST http://localhost:3000/api/db/filter -H "Content-Type: application/json" -d '{"color": ["bright_red", "cadmium_yellow"], "month": "january", "subject": ["bushes"]}'```
+
 More specific filters:
 
-curl -X POST http://localhost:3000/api/db/filter -H "Content-Type: application/json" -d '{"color": ["bright_red", "cadmium_yellow", "titanium_white"], "month": "january", "subject": ["bushes", "conifer"]}'
-GET /api/db/filter
-Filters paintings using query parameters.
+```curl -X POST http://localhost:3000/api/db/filter -H "Content-Type: application/json" -d '{"color": ["bright_red", "cadmium_yellow", "titanium_white"], "month": "january", "subject": ["bushes", "conifer"]}'```
+
+- Filters paintings using query parameters.
 
 Example cURL Request
 Get request with query params:
-curl -X GET "http://localhost:3000/api/db/filter?color=bright_red,cadmium_yellow,titanium_white&month=january&subject=bushes,conifer"
-Setup Instructions
+```curl -X GET "http://localhost:3000/api/db/filter?color=bright_red,cadmium_yellow,titanium_white&month=january&subject=bushes,conifer"```
+
+- Setup Instructions
 
 Create a .env file in the root directory.
 Add MongoDB connection string:
-MONGODB_URI=mongodb+srv://dfalsabrook:dfAWj1CvKBLc29th@joypainting.fqqbi.mongodb.net/?retryWrites=true&w=majority&appName=joyPainting
+```MONGODB_URI=mongodb+srv://dfalsabrook:dfAWj1CvKBLc29th@joypainting.fqqbi.mongodb.net/?retryWrites=true&w=majority&appName=joyPainting```
 
 
 # Run the development server:
