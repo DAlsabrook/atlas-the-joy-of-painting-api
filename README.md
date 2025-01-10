@@ -103,7 +103,7 @@ npm run dev
 Access the app at http://localhost:3000.
 
 # Visit the site live
-Visit [the website](https://happylittlearchive.com/) to see it in action!
+Visit [HappyLittleArchive.com](https://happylittlearchive.com/) to see it in action!
 
 # Author
 [David Alsabrook](https://github.com/DAlsabrook)
